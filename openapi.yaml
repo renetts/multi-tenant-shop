@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  title: Multi-Tenant Shop API
+  version: 1.0.0
+
+paths:
+  /clients:
+    get:
+      summary: List all clients
+      responses:
+        '200':
+          description: A list of clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+    post:
+      summary: Create a new client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '201':
+          description: Client created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+
+  /clients/{clientId}/categories:
+    parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get all categories for a client
+      responses:
+        '200':
+          description: A list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+    post:
+      summary: Create category for a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+
+  /clients/{clientId}/products:
+    parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get all products for a client
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Create product for a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        logoUrl:
+          type: string
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        clientId:
+          type: string
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        categoryId:
+          type: string
+        clientId:
+          type: string
+        imageUrl:
+          type: string
