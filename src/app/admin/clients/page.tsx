@@ -3,8 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { addClient, getClients } from "@/lib/api";
 import { Client } from "@/types";
+import withAdminProtection from "@/auth/withAdminProtection";
 
-export default function ClientsPage() {
+function ClientsPage() {
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<Client>();
   const { data: clients } = useQuery({
@@ -14,7 +15,7 @@ export default function ClientsPage() {
   const mutation = useMutation({
     mutationFn: addClient,
     onSuccess: () => {
-      queryClient.invalidateQueries(["clients"]);
+      queryClient.invalidateQueries({ queryKey: ["clients"] });
       reset();
     },
   });
@@ -55,3 +56,5 @@ export default function ClientsPage() {
     </div>
   );
 }
+
+export default withAdminProtection(ClientsPage);
