@@ -1,5 +1,3 @@
-// orval.config.ts
-
 import { defineConfig } from 'orval';
 
 export default defineConfig({
@@ -7,8 +5,8 @@ export default defineConfig({
     input: './openapi.yaml', // Adjust if needed
     output: {
       mode: 'tags-split',
-      target: './src/api/generated.ts',
-      schemas: './src/api/schemas',
+      target: './src/api',
+      schemas: './src/model',
       client: 'react-query', // or 'axios' or 'fetch'
       override: {
         mutator: {

@@ -1,20 +1,26 @@
-import React, { useContext, useEffect } from "react";
-import { useRouter } from "next/router";
+"use client";
+
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "./AuthProvider";
 
 const withAdminProtection = (Component: React.FC) => {
   const WrappedComponent = () => {
-    const { user, role } = useContext(AuthContext);
+    const { user, role, loading } = useContext(AuthContext);
     const router = useRouter();
 
     useEffect(() => {
-      if (user && role !== "admin") {
-        router.push("/unauthorized");
+      if (!loading) {
+        if (!user) {
+          router.push("/login");
+        } else if (role !== "admin") {
+          router.push("/unauthorized");
+        }
       }
-    }, [user, role, router]);
+    }, [user, role, loading, router]);
 
-    if (!user || role !== "admin") {
-      return null; // You can replace this with a loading spinner
+    if (loading || !user || role !== "admin") {
+      return <p className="p-4 text-center">Loading or unauthorized...</p>;
     }
 
     return <Component />;

@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthProvider } from "@/auth/AuthProvider";
 import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
@@ -14,7 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </QueryClientProvider>
       </body>
     </html>
